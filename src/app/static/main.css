@@ -1,0 +1,454 @@
+/* General styles */
+body {
+    background-color: #222;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.scroll-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #9f7aea;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: none;
+}
+
+.scroll-to-top:hover {
+    background-color: #a78bf3;
+}
+
+/* Header styles */
+header {
+    background-color: #333;
+    padding: 1rem 0;
+}
+
+.header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.logo {
+    color: #9f7aea;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.logo:hover {
+    color: #a78bf3;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    background-color: #444;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 8px 12px;
+    margin-right: 10px;
+    width: 200px;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #9f7aea;
+}
+
+.search-btn {
+    background-color: #9f7aea;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-btn:hover {
+    background-color: #a78bf3;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.action-btn {
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-btn:hover {
+    background-color: #666;
+}
+
+/* Show / Movie List style */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.main-content {
+    padding: 20px 0;
+}
+.list-header {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.genre-buttons {
+    display: flex;
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+.genre-btn {
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.genre-btn:hover {
+    background-color: #666;
+}
+.genre-btn.active {
+    background-color: #9f7aea;
+}
+.movie-list {
+    list-style-type: none;
+    padding: 0;
+}
+.movie-item {
+    background-color: #333;
+    padding: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+.movie-item:hover {
+    background-color: #444;
+}
+.movie-thumbnail {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+.movie-details {
+    margin-left: 20px;
+}
+.movie-title {
+    color: #9f7aea;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    text-decoration: none;
+}
+.movie-title:hover {
+    color: #a78bf3;
+}
+.movie-info {
+    color: #888;
+}
+.grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.grid-view li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+}
+
+.grid-view .movie-thumbnail {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.grid-view .movie-details {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+/* Movie / Show Detail styles */
+.content-container {
+    position: relative;
+    z-index: 1;
+    padding-top: 30vh;
+    padding: 20px;
+}
+
+.backdrop-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30vh;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    opacity: 0.3;
+}
+
+.title-container {
+    display: inline-block; /* Ensure elements inside are displayed inline */
+    margin-top: 130px;
+}
+
+.movie-detail-title {
+    font-size: 3rem;
+    display: inline-block; /* Display title inline */
+    vertical-align: middle; /* Align vertically with play button */
+    margin-right: 10px; /* Adjust spacing between title and button */
+}
+
+.movie-overview {
+    color: #888;
+    margin-bottom: 1rem;
+}
+
+.info-label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.info-text {
+    color: #888;
+    margin-bottom: 1rem;
+}
+
+.genres {
+    color: #888;
+    margin-bottom: 1rem;
+}
+
+.genre-link {
+    color: #9f7aea;
+    font-weight: bold;
+    margin-right: 10px;
+    text-decoration: none;
+}
+
+.genre-link:hover {
+    color: #a78bf3;
+}
+
+.production-companies {
+    color: #888;
+    margin-bottom: 1rem;
+}
+
+.visit-homepage {
+    color: #9f7aea;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.visit-homepage:hover {
+    color: #a78bf3;
+}
+
+.play-button {
+    background-color: #9f7aea;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.play-button:hover {
+    background-color: #a78bf3;
+}
+
+/* Movie / Show watch styles */
+.content-container-watch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 20px;
+}
+
+.player-container {
+    background-color: #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    height: 100%;
+    width: 80%;
+}
+
+.player-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.tab-links {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.tab-link {
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    margin-right: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tab-link:hover {
+    background-color: #666;
+}
+
+.active-tab {
+    background-color: #9f7aea;
+}
+
+.player-frame {
+    width: 100%;
+    height: 600px;
+    background-color: #222;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.player-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Episode Navigation Buttons */
+.episode-nav-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.episode-nav-btn {
+    background-color: #9f7aea;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 10px;
+}
+
+.episode-nav-btn:hover {
+    background-color: #a78bf3;
+}
+
+/* 404 styling */
+.error-container {
+    background-color: #333;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 100%;
+    max-width: 28rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.error-container h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.error-container p {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #cbd5e0;
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.error-container .error-message {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #cbd5e0;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.error-container .cta-link {
+    background-color: #805ad5;
+    color: #ffffff;
+    font-weight: 500;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    padding: 0.7rem 1.5rem;
+    text-decoration: none;
+    text-align: center;
+    margin-top: 1.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.error-container .cta-link:hover {
+    background-color: #6b46c1;
+}
+
+.error-container .api-input {
+    background-color: #444;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 12px 18px;
+    width: 300px;
+}
+
+.error-container .invalid-api-text {
+    color: #ff4242;
+}

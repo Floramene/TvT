@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TvT - {{ title.title if media_type == 'movie' else title.name }}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="backdrop-image"></div>
+
+    <header>
+        <div class="header-inner">
+            <a href="{{ url_for('main.media_list', media_type=media_type) }}" class="logo">TvT</a>
+            <form method="get" action="{{ url_for('main.media_list', media_type=media_type) }}" class="search-form">
+                <input type="text" id="search" name="search" placeholder="Search" value="{{ request.args.get('search', '') }}" class="search-input">
+                <input type="hidden" id="genre-input" name="genre" value="{{ request.args.get('genre', '') }}">
+                <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
+            </form>
+            <div class="action-buttons">
+                <a id="toggle-view" class="action-btn"><i class="fa fa-th-large"></i></a>
+                <a href="{{ url_for('main.media_list', media_type='show' if media_type == 'movie' else 'movie') }}" class="action-btn">
+                    <i class="{{ 'fa fa-tv' if media_type == 'movie' else 'fa fa-film' }}"></i>
+                </a>
+                <a href="https://example.com" target="_blank" class="action-btn"><i class="fa fa-github"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="content-container">
+        <div class="title-container">
+            <h1 class="movie-detail-title">{{ title.title if media_type == 'movie' else title.name }}</h1>
+            {% if media_type == 'movie' %}
+                {% if title.id %}
+                    <button class="play-button" onclick="window.location.href='{{ url_for('main.title_watch', content_type='movie', content_id=title.id) }}'"> Play </button>
+                {% endif %}
+            {% endif %}
+        </div>
+        <div>
+            <div>
+                <p class="movie-overview">{{ title.overview }}</p>
+                <div>
+                    <p class="info-text"><span class="info-label">Release Date:</span> {{ title.release_date if media_type == 'movie' else title.first_air_date }}</p>
+                    <p class="info-text"><span class="info-label">Original Language:</span> {{ title.original_language }}</p>
+                    <p class="info-text"><span class="info-label">Adult Title:</span> {% if title.adult %}Yes{% else %}No{% endif %}</p>
+                    <p class="info-text"><span class="info-label">Rating:</span> {{ title.vote_average }} / 10 ({{ title.vote_count }} votes)</p>
+                    <p class="info-text"><span class="info-label">Tagline:</span> {{ title.tagline }}</p>
+                </div>
+                <p class="genres"><span class="info-label">Genres:</span>
+                    {% for genre in title.genres %}
+                        <a href="{{ url_for('main.media_list', media_type=media_type, search=request.args.get('search', ''), genre=genre.id) }}" class="genre-link">{{ genre.name }}</a>
+                    {% endfor %}
+                </p>
+                <p class="production-companies"><span class="info-label">Production Companies:</span>
+                    {% for company in title.production_companies %}
+                        <span>{{ company.name }}</span>
+                        {% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+                <a href="{{ title.homepage }}" target="_blank" class="visit-homepage">Visit Homepage</a>
+            </div>
+        </div>
+
+        {% if media_type != 'movie' %}
+            {% if title.seasons %}
+            <ul class="movie-list">
+                {% for season in title.seasons if season.season_number != 0 %}
+                    <li class="movie-item">
+                        <img src="https://image.tmdb.org/t/p/w342{{ season.poster_path }}" alt="{{ season.name }} thumbnail" class="movie-thumbnail" onerror="this.src='/static/Images/missing.jpg'" />
+                        <div class="movie-details">
+                            <a href="{{ url_for('main.season_detail', show_id=title.id, season_number=season.season_number) }}" class="movie-title">{{ season.name }}</a>
+                            <p class="movie-info">{{ season.air_date }} <br/> {{ season.episode_count }} episodes</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endif %}
+
+    <button onclick="scrollToTop()" id="toTop" class="scroll-to-top"><i class="fa fa-arrow-up"></i></button>
+    <script src="/static/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var backdropImage = document.querySelector('.backdrop-image');
+            var remoteImageUrl = 'https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces/{{ title.backdrop_path }}';
+            var localImageUrl = '/static/Images/banner.png';
+
+            var img = new Image();
+            img.src = remoteImageUrl;
+            img.addEventListener('load', function() {
+                backdropImage.style.backgroundImage = 'url(' + remoteImageUrl + ')';
+            });
+            img.addEventListener('error', function() {
+                backdropImage.style.backgroundImage = 'url(' + localImageUrl + ')';
+            });
+        });
+    </script>
+</body>
+</html>

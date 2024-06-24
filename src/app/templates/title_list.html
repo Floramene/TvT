@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TvT - {{ media_type|capitalize }} List</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="{{ url_for('main.media_list', media_type=media_type) }}" class="logo">TvT</a>
+            <form method="get" action="{{ url_for('main.media_list', media_type=media_type) }}" class="search-form">
+                <input type="text" id="search" name="search" placeholder="Search" value="{{ request.args.get('search', '') }}" class="search-input">
+                <input type="hidden" id="genre-input" name="genre" value="{{ request.args.get('genre', '') }}">
+                <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
+            </form>
+            <div class="action-buttons">
+                <a id="toggle-view" class="action-btn"><i class="fa fa-th-large"></i></a>
+                <a href="{{ url_for('main.media_list', media_type='show' if media_type == 'movie' else 'movie') }}" class="action-btn">
+                    <i class="{{ 'fa fa-tv' if media_type == 'movie' else 'fa fa-film' }}"></i>
+                </a>
+                <a href="https://example.com" target="_blank" class="action-btn"><i class="fa fa-github"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        <div class="container">
+            <h1 class="list-header">{{ media_type|capitalize }} List</h1>
+            <div class="genre-buttons">
+                <button style="margin-bottom: 15px;" type="button" class="genre-btn {% if not request.args.get('genre') %}active{% endif %}" onclick="window.location.href='{{ url_for('main.media_list', media_type=media_type, search=request.args.get('search', '')) }}'">All</button>
+                {% for genre in genres %}
+                    <button style="margin-bottom: 15px;" type="button" class="genre-btn {% if request.args.get('genre') == genre.id|string %}active{% endif %}" onclick="window.location.href='{{ url_for('main.media_list', media_type=media_type, search=request.args.get('search', ''), genre=genre.id) }}'">{{ genre.name }}</button>
+                {% endfor %}
+            </div>
+
+            <ul class="movie-list">
+                {% for title in titles %}
+                    <li class="movie-item">
+                        <img src="https://image.tmdb.org/t/p/w200{{ title.poster_path }}" alt="{{ title.title if media_type == 'movie' else title.name }} thumbnail" class="movie-thumbnail" onerror="this.src='/static/Images/missing.jpg'">
+                        <div class="movie-details">
+                            <a href="{{ url_for('main.title_detail', content_type=media_type, title_id=title.id) }}" class="movie-title">{{ title.title if media_type == 'movie' else title.name }}</a>
+                            <p class="movie-info">{{ title.release_date if media_type == 'movie' else title.first_air_date }} <br/> {{ title.vote_average }} <i class="fa fa-star"></i></p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+
+    <button onclick="scrollToTop()" id="toTop" class="scroll-to-top"><i class="fa fa-arrow-up"></i></button>
+    <script src="/static/main.js"></script>
+</body>
+</html>
+

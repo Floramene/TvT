@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TvT - {{ season.name }}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="backdrop-image"></div>
+
+    <header>
+        <div class="header-inner">
+            <a href="{{ url_for('main.media_list', media_type='show') }}" class="logo">TvT</a>
+            <form method="get" action="{{ url_for('main.media_list', media_type='show') }}" class="search-form">
+                <input type="text" id="search" name="search" placeholder="Search" value="{{ request.args.get('search', '') }}" class="search-input">
+                <input type="hidden" id="genre-input" name="genre" value="{{ request.args.get('genre', '') }}">
+                <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
+            </form>
+            <div class="action-buttons">
+                <a id="toggle-view" class="action-btn"><i class="fa fa-th-large"></i></a>
+                <a href="{{ url_for('main.media_list', media_type='movie') }}" class="action-btn"><i class="fa fa-film"></i></a>
+                <a href="https://example.com" target="_blank" class="action-btn"><i class="fa fa-github"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="content-container">
+        <div class="title-container">
+            <h1 class="movie-detail-title">{{ season.name }} - {{ season.air_date }}</h1>
+        </div>
+        <p class="movie-overview">{{ season.overview }}</p>
+        <h2>Episodes</h2>
+        <ul class="movie-list">
+        {% for episode in season.episodes %}
+            <li class="movie-item">
+                <img src="https://image.tmdb.org/t/p/w200{{ episode.still_path }}" alt="{{ episode.name }} thumbnail" class="movie-thumbnail" onerror="this.src='/static/Images/missing.jpg'">
+                <div class="movie-details">
+                    <a href="{{ url_for('main.title_watch', content_type='show', content_id=series_id, season_number=season.season_number, episode_number=episode.episode_number) }}" class="movie-title">Episode {{ episode.episode_number }} - {{ episode.name }}</a>
+                    <p class="movie-info">{{ episode.air_date }}</p>
+                    <p class="movie-info">{{ episode.runtime }} Minutes</p>
+                    <p class="movie-info">{{ episode.overview }}</p>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+
+    <button onclick="scrollToTop()" id="toTop" class="scroll-to-top"><i class="fa fa-arrow-up"></i></button>
+    <script src="/static/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var backdropImage = document.querySelector('.backdrop-image');
+            var remoteImageUrl = 'https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces/{{ season.poster_path }}';
+            var localImageUrl = '/static/Images/banner.png';
+
+            var img = new Image();
+            img.src = remoteImageUrl;
+            img.addEventListener('load', function() {
+                backdropImage.style.backgroundImage = 'url(' + remoteImageUrl + ')';
+            });
+            img.addEventListener('error', function() {
+                backdropImage.style.backgroundImage = 'url(' + localImageUrl + ')';
+            });
+        });
+    </script>
+</body>
+</html>

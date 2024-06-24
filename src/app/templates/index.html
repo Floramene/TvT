@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TvT</title>
+    <meta content="TvT" property="og:title">
+    <meta content="Just a poorly written movie, and show streaming website hosted with Flask! :3" property="og:description">
+    <meta content="{{ request.url }}" property="og:url">
+    <meta content="/static/favicon.png" property="og:image">
+    <meta content="#9333ea" name="theme-color">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <h1>TvT - Stream go <i>brrr</i></h1>
+        <p>Please input your TMDB API Key to proceed.</p>
+        <form method="post">
+            <input class="api-input" type="text" id="api_key" name="api_key" required placeholder="TMDB API KEY">
+            <button class="cta-link" type="submit">Submit</button>
+        </form>
+        {% if error %}
+            <p class="invalid-api-text">{{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+

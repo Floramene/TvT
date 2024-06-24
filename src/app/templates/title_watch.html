@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TvT - Player</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="{{ url_for('main.media_list', media_type='show' if content_type == 'tv' else 'movie') }}" class="logo">TvT</a>
+            <form method="get" action="{{ url_for('main.media_list', media_type=content_type) }}" class="search-form">
+                <input type="text" id="search" name="search" placeholder="Search" value="{{ request.args.get('search', '') }}" class="search-input">
+                <input type="hidden" id="genre-input" name="genre" value="{{ request.args.get('genre', '') }}">
+                <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
+            </form>
+            <div class="action-buttons">
+                <a href="{{ url_for('main.media_list', media_type='show' if content_type == 'movie' else 'movie') }}" class="action-btn">
+                    <i class="{{ 'fa fa-tv' if content_type == 'movie' else 'fa fa-film' }}"></i>
+                </a>
+                <a href="https://example.com" target="_blank" class="action-btn"><i class="fa fa-github"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="content-container-watch">
+        <div class="player-container">
+            <h1 class="player-title">{{ title }}</h1>
+            <div class="tab-links">
+                <button id="movplayer-tab" class="tab-link active-tab">movplayer</button>
+                <button id="embedsoap-tab" class="tab-link">embedsoap</button>
+            </div>
+            <div class="player-frame">
+                <iframe id="content-player" src="{% if content_type == 'movie' %} https://multiembed.mov/?video_id={{ content_id }}&tmdb=1 {% else %} https://multiembed.mov/?video_id={{ content_id }}&tmdb=1&s={{ season_number }}&e={{ episode_number }} {% endif %}" frameborder="1" allowfullscreen></iframe>
+            </div>
+
+            {% if content_type != 'movie' and season_number and episode_number %}
+            <div class="episode-nav-buttons">
+                {% if episode_number > 1 %}
+                    <button onclick="window.location.href='{{ url_for('main.title_watch', content_type='show', content_id=content_id, season_number=season_number, episode_number=episode_number-1) }}'" class="episode-nav-btn"><i class="fa fa-chevron-left"></i> Previous Episode</button>
+                {% endif %}
+                <button onclick="window.location.href='{{ url_for('main.season_detail', show_id=content_id, season_number=season_number) }}'" class="episode-nav-btn">All Episodes</button>
+                {% if episode_number < content.episodes|length %}
+                    <button onclick="window.location.href='{{ url_for('main.title_watch', content_type='show', content_id=content_id, season_number=season_number, episode_number=episode_number+1) }}'" class="episode-nav-btn">Next Episode <i class="fa fa-chevron-right"></i></button>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const movplayerTab = document.getElementById('movplayer-tab');
+            const embedsoapTab = document.getElementById('embedsoap-tab');
+            const contentPlayer = document.getElementById('content-player');
+
+            movplayerTab.addEventListener('click', function(e) {
+                e.preventDefault();
+                movplayerTab.classList.add('active-tab');
+                embedsoapTab.classList.remove('active-tab');
+                {% if content_type == 'movie' %}
+                    contentPlayer.src = 'https://multiembed.mov/?video_id={{ content_id }}&tmdb=1';
+                {% else %}
+                    contentPlayer.src = 'https://multiembed.mov/?video_id={{ content_id }}&tmdb=1&s={{ season_number }}&e={{ episode_number }}';
+                {% endif %}
+            });
+
+            embedsoapTab.addEventListener('click', function(e) {
+                e.preventDefault();
+                embedsoapTab.classList.add('active-tab');
+                movplayerTab.classList.remove('active-tab');
+                {% if content_type == 'movie' %}
+                    contentPlayer.src = 'https://www.embedsoap.com/embed/movie/{{ content_id }}';
+                {% else %}
+                    contentPlayer.src = 'https://www.embedsoap.com/embed/tv/?id={{ content_id }}&s={{ season_number }}&e={{ episode_number }}';
+                {% endif %}
+            });
+        });
+    </script>
+</body>
+</html>
+
