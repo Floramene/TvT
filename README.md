@@ -39,7 +39,7 @@ Contributions are _MORE_ than welcome. My code is ass. Please improve it!!
 
 > [!WARNING]
 > Note! This project was 100% inspired from [Nova](https://github.com/ambr0sial/nova/)  
-> I started work on it because me and the creator were joking about what it'd be like if I made a streaming service similar to  
-> theirs as well. So here's my own spin on it. Hope yall enjoy!
+> I started work on it because me and the creator were joking about what it'd be like if I made a streaming  
+> service similar to theirs as well. So here's my own spin on it. Hope yall enjoy!
 
 
