@@ -3,6 +3,8 @@
 
 Just your run of the mill streaming platform. Supports a variety of movies and shows pulled from the The Movie Database, otherwise known as TMDb coupled with a few embed APIs for your viewing pleasure. Should be easy enough for most folks to use!
 
+<img src="Assets/MovieList.png" alt="Preview">
+
 ## Usage
 
 ### Online Usage (Probably temporary. I dont have a host lol)
