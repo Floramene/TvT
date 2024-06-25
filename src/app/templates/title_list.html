@@ -43,7 +43,7 @@
                         <img src="https://image.tmdb.org/t/p/w200{{ title.poster_path }}" alt="{{ title.title if media_type == 'movie' else title.name }} thumbnail" class="movie-thumbnail" onerror="this.src='/static/Images/missing.jpg'">
                         <div class="movie-details">
                             <a href="{{ url_for('main.title_detail', content_type=media_type, title_id=title.id) }}" class="movie-title">{{ title.title if media_type == 'movie' else title.name }}</a>
-                            <p class="movie-info">{{ title.release_date if media_type == 'movie' else title.first_air_date }} <br/> {{ title.vote_average }} <i class="fa fa-star"></i></p>
+                            <p class="movie-info">{{ title.release_date if media_type == 'movie' else title.first_air_date }} <br/> {{ title.vote_average | round(1) }} <i class="fa fa-star"></i></p>
                         </div>
                     </li>
                 {% endfor %}
