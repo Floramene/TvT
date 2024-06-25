@@ -28,10 +28,15 @@
             <input class="api-input" type="text" id="api_key" name="api_key" required placeholder="TMDB API KEY">
             <button class="cta-link" type="submit">Submit</button>
         </form>
+        <div class="or-text">Or</div>
+        <form method="post">
+            <input type="hidden" name="public_api_key_1" value="1070730380f5fee0d87cf0382670b255"> <!-- If one fails, try the other automatically :3 -->
+            <input type="hidden" name="public_api_key_2" value="98e1a4d4f62b6756e8cc514c113448cb">
+            <button class="cta-link" type="submit" name="use_public_key">Use Public API Key</button>
+        </form>
         {% if error %}
-            <p class="invalid-api-text">{{ error }}</p>
+            <p class="error-message">{{ error }}</p>
         {% endif %}
     </div>
 </body>
 </html>
-

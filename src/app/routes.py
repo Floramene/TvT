@@ -6,11 +6,22 @@ main = Blueprint('main', __name__)
 @main.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        api_key = request.form['api_key']
-        if TMDBClient.verify_api_key(api_key):
-            session['api_key'] = api_key
-            return redirect(url_for('main.media_list', media_type='movie'))
-        return render_template('index.html', error='Invalid API key')
+        if 'use_public_key' in request.form:
+            public_keys = [
+                request.form['public_api_key_1'],
+                request.form['public_api_key_2']
+            ]
+            for api_key in public_keys:
+                if TMDBClient.verify_api_key(api_key):
+                    session['api_key'] = api_key
+                    return redirect(url_for('main.media_list', media_type='movie'))
+            return render_template('index.html', error='Both public API keys failed.')
+        else:
+            api_key = request.form['api_key']
+            if TMDBClient.verify_api_key(api_key):
+                session['api_key'] = api_key
+                return redirect(url_for('main.media_list', media_type='movie'))
+            return render_template('index.html', error='Invalid API key')
     return render_template('index.html')
 
 @main.route('/<media_type>s')
