@@ -452,3 +452,7 @@ header {
 .error-container .invalid-api-text {
     color: #ff4242;
 }
+
+.disqus-container {
+    padding: 50px;
+}
