@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TvT - Player</title>
+    <title>TvT - {{ title }}</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -50,25 +50,22 @@
             {% endif %}
         </div>
     </div>
-    <div class="disqus-container" id="disqus_thread"></div>
-    <script>
-        var disqus_config = function () {
-        this.page.url = window.location.href;
-        this.page.identifier = this.page.url;
-        };
-        (function() {
-        var d = document, s = d.createElement('script');
-        s.src = 'https://floramene.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <div id="comments-wrap" class="hyvor-container"></div>
+    <script async src="https://talk.hyvor.com/embed/embed.js" type="module"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const movplayerTab = document.getElementById('movplayer-tab');
             const embedsoapTab = document.getElementById('embedsoap-tab');
             const contentPlayer = document.getElementById('content-player');
+            const comments = document.createElement("hyvor-talk-comments");
+
+            comments.setAttribute('website-id', 11354);
+            {% if content_type == 'movie' %}
+                comments.setAttribute('page-id', {{ content_id }});
+            {% else %}
+                comments.setAttribute('page-id', {{ content_id }}{{ season_number }}{{ episode_number }});
+            {% endif %}
+            document.getElementById("comments-wrap").appendChild(comments);
 
             movplayerTab.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -97,4 +94,3 @@
     <script src="/static/main.js"></script>
 </body>
 </html>
-
